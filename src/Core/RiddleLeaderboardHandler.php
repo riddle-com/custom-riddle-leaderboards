@@ -11,11 +11,14 @@ class RiddleLeaderboardHandler
 {
 
     private $app;
+    private $riddleFallbackId; // This riddle ID gets rendered when there's no data
 
-    public function __construct()
+    public function __construct(int $riddleFallbackId = -1)
     {
+        $this->riddleFallbackId = $riddleFallbackId;
+
         $this->app = new RiddleApp();
-        $this->_loadUserConfig();
+        $this->loadUserConfig();
     }
 
     public function start()
@@ -26,6 +29,8 @@ class RiddleLeaderboardHandler
 
         if (!$this->_userSkippedLeadForm($riddleData)) { // the user skipped the form / hasn't sent anything
             $this->app->processData($riddleData);
+        } else {
+            $this->app->setRiddleId($this->riddleFallbackId);
         }
 
         $this->_render($riddleData);
@@ -33,14 +38,16 @@ class RiddleLeaderboardHandler
 
     private function _render($riddleData)
     {
-        $viewName = $this->_userSkippedLeadForm($riddleData) ? 'renderNoDataView' : 'renderView';
+        $viewName = $this->_userSkippedLeadForm($riddleData) && -1 === $this->riddleFallbackId 
+            ? 'renderNoDataView' // if the user skipped the form and no fallback riddle ID is defined
+            : 'renderView';
         $viewName = $this->app->getConfig()->getProperty($viewName);
 
         $renderer = new RiddlePageRenderer($this->app, $viewName);
         $skeleton = new RiddlePageSkeleton($this->app);
 
         $skeleton->setBody(
-            $renderer->render($riddleData ? $riddleData->getJsonData() : []) // render the template
+            $renderer->render($riddleData ? $riddleData->getJsonData() : null) // render the template
         );
         echo $skeleton->printOut(); // print out the rendered html contents
     }
@@ -55,7 +62,7 @@ class RiddleLeaderboardHandler
     }
 
     private function _userSkippedLeadForm($riddleData) {
-        return $riddleData === null || empty( (array) $riddleData->getLead());
+        return $riddleData === null || empty((array) $riddleData->getLead());
     }
 
     /**
@@ -80,7 +87,11 @@ class RiddleLeaderboardHandler
         }
     }
 
-    private function _loadUserConfig()
+    /**
+     * override this function if you want to load the main config in another way.
+     * (we use that in our WP plugin)
+     */
+    public function loadUserConfig()
     {
         $configPath = APP_DIR . '/config/RiddleConfig.php';
 
@@ -88,7 +99,7 @@ class RiddleLeaderboardHandler
             return false;
         }
 
-        $this->app->getConfig()->addProperties($configPath);
+        $this->app->getConfig()->addConfigFile($configPath);
     }
 
 }

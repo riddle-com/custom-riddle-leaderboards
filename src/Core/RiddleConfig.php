@@ -52,14 +52,14 @@ class RiddleConfig
     }
 
     /**
-     * Adds properties to the config. The config properties will be stored in the $config array: 
+     * Adds the properties of a config file to this config
      * 
      * @param $configPath (string) the path of the config file
      * @throws Riddle\Exception\FileNotFoundException if the subconfig file doesn't exist.
      * @throws Riddle\Exception\BadConfigException if the config is faulty (either $config is not set or $config is not an array)
      * @return (array) all the properties of the loaded config
      */
-    public function addProperties(string $configPath)
+    public function addConfigFile(string $configPath)
     {
         if (!file_exists($configPath)) {
             throw new FileNotFoundException('The config you wanted to add can\'t be found (path: ' . $configPath . ').');
@@ -74,6 +74,14 @@ class RiddleConfig
         $this->properties = $config;
 
         return $config;
+    }
+
+    /**
+     * Adds properties to the config.
+     */
+    public function addProperties(array $properties)
+    {
+        $this->properties = array_merge($this->properties, $properties);
     }
 
     private function _loadDefaultConfig()
