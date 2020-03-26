@@ -207,7 +207,6 @@ class LeaderboardLeadsBlock extends ModuleBlock
     private function _appendSuffix(string &$html, array $args) 
     {
         if (isset($args['templateSuffix']) && !$this->module->getHelperService()->everyLeadisDisplayed()) {
-            echo "APPEND SUFFIX. <br>";
             $html .= $args['templateSuffix'];
         }
 

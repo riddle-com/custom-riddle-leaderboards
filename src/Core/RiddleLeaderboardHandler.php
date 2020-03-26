@@ -10,8 +10,8 @@ use Riddle\Render\RiddlePageSkeleton;
 class RiddleLeaderboardHandler
 {
 
-    private $app;
-    private $riddleFallbackId; // This riddle ID gets rendered when there's no data
+    protected $app;
+    protected $riddleFallbackId; // This riddle ID gets rendered when there's no data
 
     public function __construct(int $riddleFallbackId = -1)
     {
@@ -33,7 +33,7 @@ class RiddleLeaderboardHandler
             $this->app->setRiddleId($this->riddleFallbackId);
         }
 
-        $this->_render($riddleData);
+        return $this->_render($riddleData);
     }
 
     private function _render($riddleData)
@@ -49,7 +49,8 @@ class RiddleLeaderboardHandler
         $skeleton->setBody(
             $renderer->render($riddleData ? $riddleData->getJsonData() : null) // render the template
         );
-        echo $skeleton->printOut(); // print out the rendered html contents
+        
+        return $skeleton->printOut(); // print out the rendered html contents
     }
 
     private function _getRiddleData()

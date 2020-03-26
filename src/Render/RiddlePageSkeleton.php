@@ -44,7 +44,10 @@ class RiddlePageSkeleton
             throw new BadConfigException('the template you set does not exist: ' . $webhookTemplate . ' (path: ' . $templatePath . ')');
         }
 
+        ob_start(); // prevent the "require" from echoing out any data
         require $templatePath;
+        
+        return ob_get_clean();
     }
 
 
@@ -77,7 +80,6 @@ class RiddlePageSkeleton
                 }
 
                 $html .= '<style>' . \file_get_contents($stylesheetPath) . '</style>';
-                //echo '<link rel="stylesheet" href="' . . $stylesheetPath'"';
             }
         }
 
