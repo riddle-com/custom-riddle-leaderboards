@@ -24,7 +24,7 @@ class RiddleLeaderboardHandler
     public function start()
     {
         $this->_authenticate();
-
+        
         $riddleData = $this->_getRiddleData();
 
         if (!$this->_userSkippedLeadForm($riddleData)) { // the user skipped the form / hasn't sent anything
@@ -49,7 +49,7 @@ class RiddleLeaderboardHandler
         $skeleton->setBody(
             $renderer->render($riddleData ? $riddleData->getJsonData() : null) // render the template
         );
-        
+
         return $skeleton->printOut(); // print out the rendered html contents
     }
 
@@ -59,7 +59,20 @@ class RiddleLeaderboardHandler
             return null;
         }
 
-        return new RiddleData($_REQUEST['data']);
+        $data = json_decode($_REQUEST['data']);
+
+        if ($data) {
+            return new RiddleData($data);
+        }
+
+        // sometimes the json comes in an escaped format - let's fix that
+        $data = json_decode(\stripslashes($_REQUEST['data']));
+
+        if ($data) {
+            return new RiddleData($data);
+        }
+
+        return null;
     }
 
     private function _userSkippedLeadForm($riddleData) {
