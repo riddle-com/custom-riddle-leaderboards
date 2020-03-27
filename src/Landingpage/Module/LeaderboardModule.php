@@ -20,7 +20,8 @@ use Riddle\Landingpage\Module\Shortcode\LeaderboardPlacementShortcode;
 use Riddle\Landingpage\Module\Shortcode\ModuleShortcodeManager;
 
 use Riddle\Landingpage\RiddleData;
-use Riddle\Landingpage\Exception\FileNotFoundException;
+use Riddle\Exception\FileNotFoundException;
+use Riddle\Render\RiddlePageRenderer;
 
 class LeaderboardModule
 {
@@ -47,7 +48,7 @@ class LeaderboardModule
         return $this->storeService->processAndStore($data);
     }
 
-    public function render()
+    public function render(RiddlePageRenderer $renderer)
     {
         $leads = $this->storeService->getEntries();
 
@@ -55,7 +56,10 @@ class LeaderboardModule
             return 'there are no leaderboard leads yet.';
         }
 
-        return RiddleTools::getViewContents($this->_getViewPath(), $this);
+        return RiddleTools::getViewContents($this->_getViewPath(), [
+            'module' => $this,
+            'injected' => $renderer->getInjectedData(),
+        ]);
     }
 
     public function renderShortcode(string $shortcodeName, array $args = [])
@@ -119,7 +123,8 @@ class LeaderboardModule
 
     private function _getViewPath()
     {
-        $path = APP_DIR . '/views/leaderboard-module.php';
+        $viewsPath = $viewsPath = $this->app->getConfig()->getProperty('viewsPath');
+        $path = $viewsPath . '/leaderboard-module.php';
 
         if (!$path) {
             throw new FileNotFoundException('The leaderboard module template does not exist (path: ' . $path . ')');

@@ -24,11 +24,16 @@ class RiddlePageSkeleton
     {
         $this->app = $app;
 
-        $this->generateHead();
+        $this->_generateHead();
         $this->webhookTemplate = $this->app->getConfig()->getProperty('webhookTemplate');
     }
 
-    public function printOut($webhookTemplate = false)
+    /**
+     * This method renders the whole skeleton and therefore the whole page.
+     * 
+     * @param $webhookTemplate default: false, pass a different template here if you don't want the default template but use the config if possible
+     */
+    public function print($webhookTemplate = false)
     {
         global $config;
 
@@ -44,14 +49,14 @@ class RiddlePageSkeleton
             throw new BadConfigException('the template you set does not exist: ' . $webhookTemplate . ' (path: ' . $templatePath . ')');
         }
 
-        ob_start(); // prevent the "require" from echoing out any data
+        ob_start();
         require $templatePath;
-        
+
         return ob_get_clean();
     }
 
 
-    public function generateHead()
+    private function _generateHead()
     {
         global $rootDir;
 
@@ -99,7 +104,7 @@ class RiddlePageSkeleton
         }
     }
 
-    public function _addLocalStylesheets(&$html)
+    private function _addLocalStylesheets(&$html)
     {
         $localStylesheets = $this->app->getConfig()->getProperty('localStylesheets');
 
@@ -123,7 +128,7 @@ class RiddlePageSkeleton
     public function dieWithError($error) 
     {
         $this->body = $error;
-        $this->printOut($this->app->getConfig()->getProperty('webhookErrorTemplate'));
+        $this->print($this->app->getConfig()->getProperty('webhookErrorTemplate'));
 
         exit();
     }

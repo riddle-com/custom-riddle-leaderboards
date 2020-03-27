@@ -6,14 +6,14 @@
         </div>
         <div class="riddle-landingpage-box-bottom">
 
-            <?php if ($data->hasData()): ?>
+            <?php if ($data['renderer']->hasData()): ?>
                 <h3>
                     <span class="leaderboard-module-gray-heading">Your Score:</span> 
-                    <span class="leaderboard-module-score bold"><?php echo $data->get('resultData.scorePercentage'); ?>%</span>
+                    <span class="leaderboard-module-score bold"><?php echo $data['renderer']->get('resultData.scorePercentage'); ?>%</span>
                 </h3>
             <?php endif; ?>
 
-            <?php echo $data->renderModule('leaderboard'); ?>
+            <?php echo $data['renderer']->renderModule('leaderboard'); ?>
 
         </div>
 

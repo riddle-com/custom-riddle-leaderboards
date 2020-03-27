@@ -11,6 +11,7 @@ namespace Riddle\Render;
 use Riddle\Core\RiddleApp;
 use Riddle\Exception\BadConfigException;
 use Riddle\Tools\RiddleTools;
+use Riddle\Landingpage\RiddleInjectedData;
 
 class RiddlePageRenderer
 {
@@ -19,6 +20,7 @@ class RiddlePageRenderer
     private $view;
     private $renderObject;
     private $data;
+    private $injectedData;
 
     /**
      * Constructor of RiddlePageRenderer
@@ -38,7 +40,7 @@ class RiddlePageRenderer
     /**
      * Renders the view.
      */
-    public function render($data = null, $loadStore = true)
+    public function render($data = null, $loadStore = true, $viewPath = null)
     {
         if (!$this->_viewExists()) {
             throw new BadConfigException('The landingpage view does not exist (path: ' . $this->getViewPath() . ').');
@@ -52,7 +54,10 @@ class RiddlePageRenderer
             $this->app->getStore()->load();
         }
 
-        return RiddleTools::getViewContents($this->getViewPath(), $this);
+        return RiddleTools::getViewContents($viewPath ? $viewPath : $this->getViewPath(), [
+            'renderer' => $this,
+            'injected' => $this->injectedData,
+        ]);
     }
 
     public function hasData()
@@ -67,7 +72,7 @@ class RiddlePageRenderer
     {
         $leaderboard = $this->app->getLeaderboardModule();
             
-        return $leaderboard->render();
+        return $leaderboard->render($this);
     }
 
     public function renderBlock(string $blockName, array $args = []) :string
@@ -100,6 +105,16 @@ class RiddlePageRenderer
         $view = $view ? $view : $this->view;
 
         return $viewsPath . '/' . $view . '.php';
+    }
+
+    public function injectData(RiddleInjectedData $data)
+    {
+        $this->injectedData = $data;
+    }
+
+    public function getInjectedData()
+    {
+        return $this->injectedData;
     }
 
 }

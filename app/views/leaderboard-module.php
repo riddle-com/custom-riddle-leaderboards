@@ -21,7 +21,7 @@ $filler =
 
 <!-- the following block will only be rendered, if the user is better than the min variable -->
 <p class="leaderboard-module-better-than-heading">
-    <?php echo $data->renderShortcode('better-than', [
+    <?php echo $data['module']->renderShortcode('better-than', [
         'min' => 20,
         'template' => 'Party! Better than %%PERCENTAGE%%%!',
     ]); ?>
@@ -42,7 +42,7 @@ $filler =
     <!-- Here you can set how many entries you want to show on the leaderboard.
         Range can be a number. The code below shows the range from 1-5 
         -->
-    <?php echo $data->renderBlock('leaderboard-leads', [
+    <?php echo $data['module']->renderBlock('leaderboard-leads', [
         'range' => [1, 5],
         'template' => $template,
         'spotTemplate' => $spotTemplate,
@@ -51,14 +51,14 @@ $filler =
     <!-- Here you can set how many leading entries you want to show on top of the leaderboard.
         Range can be a number. The code below shows the range from 1-5 
         -->
-    <?php echo $data->renderBlock('spot-leaderboard-leads', [
+    <?php echo $data['module']->renderBlock('spot-leaderboard-leads', [
         'range' => [1, 1],
         'template' => $template,
         'spotTemplate' => $spotTemplate,
         'templatePrefix' => $filler,
     ]); ?>
 
-    <?php echo $data->renderBlock('last-leaderboard-lead', [
+    <?php echo $data['module']->renderBlock('last-leaderboard-lead', [
         'template' => $template,
         'templatePrefix' => $filler,
         'spotTemplate' => $spotTemplate,
@@ -66,7 +66,7 @@ $filler =
 </table>
 
 <p class="leadeboard-module-gray-text">
-    <?php echo $data->renderShortcode('placement', [
+    <?php echo $data['module']->renderShortcode('placement', [
         'min' => 20,
     ]); ?>
 </p>
@@ -76,7 +76,7 @@ $filler =
     placeName = specify how the place range should be named (e.g. "You've missed out on the 'top 10' by xxx")
 -->
 <p class="leadeboard-module-gray-text">
-    <?php echo $data->renderShortcode('missed-place', [
+    <?php echo $data['module']->renderShortcode('missed-place', [
         'place' => 10,
         'placeName' => 'top 10',
     ]); ?>

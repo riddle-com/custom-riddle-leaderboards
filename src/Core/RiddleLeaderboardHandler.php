@@ -18,7 +18,7 @@ class RiddleLeaderboardHandler
         $this->riddleFallbackId = $riddleFallbackId;
 
         $this->app = new RiddleApp();
-        $this->loadUserConfig();
+        $this->_loadUserConfig();
     }
 
     public function start()
@@ -38,19 +38,13 @@ class RiddleLeaderboardHandler
 
     private function _render($riddleData)
     {
-        $viewName = $this->_userSkippedLeadForm($riddleData) && -1 === $this->riddleFallbackId 
-            ? 'renderNoDataView' // if the user skipped the form and no fallback riddle ID is defined
-            : 'renderView';
-        $viewName = $this->app->getConfig()->getProperty($viewName);
+        $renderer = $this->_getRenderer($riddleData);
+        $skeleton = new RiddlePageSkeleton($this->app); // Splits the page into head, body & footer
 
-        $renderer = new RiddlePageRenderer($this->app, $viewName);
-        $skeleton = new RiddlePageSkeleton($this->app);
+        $leaderboardRender = $renderer->render($riddleData ? $riddleData->getJsonData() : null);
+        $skeleton->setBody($leaderboardRender);
 
-        $skeleton->setBody(
-            $renderer->render($riddleData ? $riddleData->getJsonData() : null) // render the template
-        );
-
-        return $skeleton->printOut(); // print out the rendered html contents
+        return $skeleton->print(); // return the rendered html contents
     }
 
     private function _getRiddleData()
@@ -79,13 +73,24 @@ class RiddleLeaderboardHandler
         return $riddleData === null || empty((array) $riddleData->getLead());
     }
 
+    protected function _getRenderer($riddleData)
+    {
+        $viewName = $this->_userSkippedLeadForm($riddleData) && -1 === $this->riddleFallbackId 
+            ? 'renderNoDataView' // if the user skipped the form and no fallback riddle ID is defined
+            : 'renderView';
+        $viewName = $this->app->getConfig()->getProperty($viewName);
+        $renderer = new RiddlePageRenderer($this->app, $viewName);
+
+        return $renderer;
+    }
+
     /**
      * Checks if the user is permitted to see the page.
      * This functions uses the config property 'secret'.
      * 
      * This function kills (via die()) the page if no secret is set or the secret is not equals the secret the user has submitted.
      */
-    public function _authenticate() {
+    protected function _authenticate() {
         $secret = $this->app->getConfig()->getProperty('secret');
 
         if (!$secret || '' === trim($secret)) {
@@ -105,7 +110,7 @@ class RiddleLeaderboardHandler
      * override this function if you want to load the main config in another way.
      * (we use that in our WP plugin)
      */
-    public function loadUserConfig()
+    protected function _loadUserConfig()
     {
         $configPath = APP_DIR . '/config/RiddleConfig.php';
 
