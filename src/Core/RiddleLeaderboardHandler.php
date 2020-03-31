@@ -12,10 +12,18 @@ class RiddleLeaderboardHandler
 
     protected $app;
     protected $riddleFallbackId; // This riddle ID gets rendered when there's no data
+    protected $acceptData;
 
-    public function __construct(int $riddleFallbackId = -1)
+    /**
+     * Constructor
+     * 
+     * @param $riddleFallbackId the riddle ID which should be displayed if there's no data
+     * @param $acceptData pass false if you don't want this leaderboard to save data (e.g. leaderboard view only, do not write any data on it)
+     */
+    public function __construct(int $riddleFallbackId = -1, bool $acceptData = true)
     {
         $this->riddleFallbackId = $riddleFallbackId;
+        $this->acceptData = $acceptData;
 
         $this->app = new RiddleApp();
         $this->_loadUserConfig();
@@ -27,10 +35,10 @@ class RiddleLeaderboardHandler
         
         $riddleData = $this->_getRiddleData();
 
-        if (!$this->_userSkippedLeadForm($riddleData)) { // the user skipped the form / hasn't sent anything
+        if ($this->acceptData && !$this->_userSkippedLeadForm($riddleData)) { // if the app accepts data and the user has filled out the lead form
             $this->app->processData($riddleData);
         } else {
-            $this->app->setRiddleId($this->riddleFallbackId);
+            $this->app->setRiddleId($this->riddleFallbackId); // the user skipped the form / hasn't sent anything
         }
 
         return $this->_render($riddleData);
@@ -69,7 +77,8 @@ class RiddleLeaderboardHandler
         return null;
     }
 
-    private function _userSkippedLeadForm($riddleData) {
+    private function _userSkippedLeadForm($riddleData) 
+    {
         return $riddleData === null || empty((array) $riddleData->getLead());
     }
 
@@ -90,7 +99,8 @@ class RiddleLeaderboardHandler
      * 
      * This function kills (via die()) the page if no secret is set or the secret is not equals the secret the user has submitted.
      */
-    protected function _authenticate() {
+    protected function _authenticate() 
+    {
         $secret = $this->app->getConfig()->getProperty('secret');
 
         if (!$secret || '' === trim($secret)) {
@@ -119,6 +129,21 @@ class RiddleLeaderboardHandler
         }
 
         $this->app->getConfig()->addConfigFile($configPath);
+    }
+
+    public function acceptsData()
+    {
+        return $this->acceptData;
+    }
+
+    public function getApp()
+    {
+        return $this->app;
+    }
+
+    public function getRiddleFallbackId()
+    {
+        return $this->riddleFallbackId;
     }
 
 }

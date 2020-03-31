@@ -143,7 +143,8 @@ class RiddlePageSkeleton
         return $this->head;
     }
 
-    public function setHead($head) {
+    public function setHead($head) 
+    {
         $this->head = $head;
     }
 
@@ -152,7 +153,8 @@ class RiddlePageSkeleton
         return $this->body;
     }
 
-    public function setBody($body) {
+    public function setBody($body) 
+    {
         $this->body = $body;
     }
 
@@ -161,7 +163,8 @@ class RiddlePageSkeleton
         return $this->footer;
     }
 
-    public function setFooter($footer) {
+    public function setFooter($footer) 
+    {
         $this->footer = $footer;
     }
 

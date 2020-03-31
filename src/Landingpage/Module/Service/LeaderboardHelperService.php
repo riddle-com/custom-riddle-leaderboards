@@ -62,7 +62,8 @@ class LeaderboardHelperService
         return $this->module->getApp()->getConfig()->getProperty('leadKey');
     }
 
-    public function setLastLeadDisplayed(int $lastLeadDisplayed) {
+    public function setLastLeadDisplayed(int $lastLeadDisplayed)
+    {
         $this->lastLeadDisplayed = $lastLeadDisplayed;
     }
 
@@ -74,7 +75,8 @@ class LeaderboardHelperService
     /**
      * Returns whether every lead is displayed on the leaderboard already.
      */
-    public function everyLeadisDisplayed() {
+    public function everyLeadisDisplayed()
+    {
         return $this->lastleadDisplayed == count($this->module->getStoreService()->getEntries());
     }
 
