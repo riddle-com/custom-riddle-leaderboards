@@ -1,5 +1,5 @@
-body {
-    font-family: 'Montserrat', sans-serif;
+.riddle-landingpage-box {  /* added to prevent the whole site from rendering with another font */
+    font-family: 'Montserrat', sans-serif; 
 }
 
 .container {

@@ -180,8 +180,16 @@ class LeaderboardStoreService
 
     private function _loadLeaderboardLeads()
     {
-        // the leads has already been loaded
+        // the leads have already been loaded
         if (!empty($this->leads)) {
+            return $this->leads;
+        }
+
+        $handler = $this->module->getApp()->getLeaderboardHandler();
+
+        if ($handler && is_array($handler->getEntries())) {
+            $this->leads = $handler->getEntries();
+
             return $this->leads;
         }
 

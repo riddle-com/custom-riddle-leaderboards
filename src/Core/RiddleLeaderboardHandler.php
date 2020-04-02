@@ -25,7 +25,7 @@ class RiddleLeaderboardHandler
         $this->riddleFallbackId = $riddleFallbackId;
         $this->acceptData = $acceptData;
 
-        $this->app = new RiddleApp();
+        $this->app = new RiddleApp($this);
         $this->_loadUserConfig();
     }
 
@@ -144,6 +144,22 @@ class RiddleLeaderboardHandler
     public function getRiddleFallbackId()
     {
         return $this->riddleFallbackId;
+    }
+
+    /**
+     * Override this function if you want to inject entries (= users on the leaderboard)
+     */
+    public function getEntries()
+    {
+        return null;
+    }
+
+    /**
+     * Every entry can be associated with one entry
+     */
+    public function getLeads()
+    {
+        return null;
     }
 
 }

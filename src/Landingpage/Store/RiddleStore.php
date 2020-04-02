@@ -21,7 +21,24 @@ abstract class RiddleStore
         $this->app = $app;
     }
 
-    abstract function load();
+    /**
+     * Loads all the leads into an array.
+     * Checks if the LeaderboardHandler injected any leads and if not uses the normal leads
+     */
+    public function load() {
+        $handler = $this->app->getLeaderboardHandler();
+
+        if ($handler && is_array($handler->getLeads())) {
+            $this->leads = $handler->getLeads();
+        } else {
+            $this->leads = $this->_loadLeads();
+        }
+
+        return $this->leads;
+    }
+
+    protected abstract function _loadLeads();
+
     abstract function store(); // save function
 
     public function isLoaded()

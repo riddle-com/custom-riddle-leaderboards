@@ -18,6 +18,8 @@ use Riddle\Landingpage\RiddleData;
 class RiddleApp
 {
 
+    private $leaderboardHandler;
+
     /**
      * @var integer
      *  
@@ -40,8 +42,10 @@ class RiddleApp
     /**
      * Constructor of RiddleApp.
      */
-    public function __construct()
+    public function __construct(RiddleLeaderboardHandler $handler = null)
     {
+        $this->leaderboardHandler = $handler;
+
         $this->config = new RiddleConfig();
         $this->skeleton = new RiddlePageSkeleton($this);
         $this->store = $this->_getRiddleStore();
@@ -143,6 +147,11 @@ class RiddleApp
     public function getLeaderboardModule()
     {
         return $this->leaderboardModule;
+    }
+
+    public function getLeaderboardHandler()
+    {
+        return $this->leaderboardHandler;
     }
     
 }

@@ -27,6 +27,10 @@ class RiddleTools
             }
 
             $data = $data[$pathKey];
+
+            if (!is_array($data)) { // $data is a string / number / ... 
+                break;
+            }
         }
 
         return $data;

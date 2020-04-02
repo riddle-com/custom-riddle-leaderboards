@@ -11,7 +11,7 @@ use Riddle\Tools\RiddleTools;
 class RiddleJsonStore extends RiddleStore
 {
 
-    public function load()
+    protected function _loadLeads()
     {
         $leadsFilePath = $this->_getLeadsFilePath();
 
@@ -19,7 +19,7 @@ class RiddleJsonStore extends RiddleStore
             return false;
         }
 
-        $this->leads = \json_decode(file_get_contents($leadsFilePath), true);
+        return \json_decode(file_get_contents($leadsFilePath), true);
     }
 
     public function store()
