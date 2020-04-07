@@ -55,7 +55,7 @@ class RiddleLeaderboardHandler
         return $skeleton->print(); // return the rendered html contents
     }
 
-    private function _getRiddleData()
+    protected function _getRiddleData()
     {
         if (!isset($_REQUEST['data'])) {
             return null;
@@ -77,11 +77,18 @@ class RiddleLeaderboardHandler
         return null;
     }
 
+    /**
+     * @return bool whether the user skipped the lead form (there's no user data / no lead data)
+     */
     private function _userSkippedLeadForm($riddleData) 
     {
         return $riddleData === null || empty((array) $riddleData->getLead());
     }
 
+    /**
+     * Override this function if you want to overwrite how the renderer should be created.
+     * You could e.g. inject data into the Renderer with your own function
+     */
     protected function _getRenderer($riddleData)
     {
         $viewName = $this->_userSkippedLeadForm($riddleData) && -1 === $this->riddleFallbackId 
@@ -131,6 +138,9 @@ class RiddleLeaderboardHandler
         $this->app->getConfig()->addConfigFile($configPath);
     }
 
+    /**
+     * @return whether this app accepts data or more precise if this app is allowed to write data on the leaderboard in this moment
+     */
     public function acceptsData()
     {
         return $this->acceptData;
@@ -141,6 +151,9 @@ class RiddleLeaderboardHandler
         return $this->app;
     }
 
+    /**
+     * @return the ID that gets used if there's no data (e.g. on a showcase page)
+     */
     public function getRiddleFallbackId()
     {
         return $this->riddleFallbackId;
@@ -148,6 +161,8 @@ class RiddleLeaderboardHandler
 
     /**
      * Override this function if you want to inject entries (= users on the leaderboard)
+     * 
+     * @return null if this function should be "ignored" and the normal entries should be used
      */
     public function getEntries()
     {
@@ -156,6 +171,8 @@ class RiddleLeaderboardHandler
 
     /**
      * Every entry can be associated with one entry
+     * 
+     * @return null if this function should be "ignored" and the normal leads should be used
      */
     public function getLeads()
     {

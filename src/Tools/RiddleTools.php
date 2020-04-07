@@ -22,15 +22,11 @@ class RiddleTools
         {
             $pathKey = trim(strip_tags($pathKey));
             
-            if (!array_key_exists($pathKey, $data)) {
+            if (!is_array($data) || !array_key_exists($pathKey, $data)) {
                 return $innerHtml;
             }
 
             $data = $data[$pathKey];
-
-            if (!is_array($data)) { // $data is a string / number / ... 
-                break;
-            }
         }
 
         return $data;
@@ -61,11 +57,6 @@ class RiddleTools
         }
 
         return $matches;
-    }
-
-    public static function getRenderedViewPath($app, $view)
-    {
-        return $app->getConfig()->getProperty('rendereredViewsPath') . '/' . $view . '.' . $extension;
     }
 
     public static function getDataFilePath($app, $fileName) 
