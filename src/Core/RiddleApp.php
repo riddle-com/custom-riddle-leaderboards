@@ -9,7 +9,6 @@
 
 namespace Riddle\Core;
 
-use Riddle\Exception\BadConfigException;
 use Riddle\Render\RiddlePageSkeleton;
 use Riddle\Landingpage\Module\LeaderboardModule;
 use Riddle\Landingpage\Store\RiddleJsonStore;

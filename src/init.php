@@ -1,6 +1,5 @@
 <?php
 
-ini_set('display_errors', 1);
 define("ROOT_DIR", dirname(dirname(__FILE__)));
 define("APP_DIR", ROOT_DIR . '/app');
 define("SRC_DIR", ROOT_DIR . '/src');
