@@ -34,12 +34,12 @@ class LeaderboardStoreService
         $this->_loadLeaderboardLeads();
 
         if(!$this->_checkForDuplicates($data)) {
-            return false;
+            return true; // user is already on the leaderboard and the current data is worse than the previous score
         }
 
         $onLeaderboard = $this->_checkAndInsertIntoLeaderboard($data);
 
-        if ($onLeaderboard === true) {
+        if ($onLeaderboard) {
             $this->_sortLeaderboard();
             $this->_refreshKeyTable();
             $this->_saveLeaderboardsFile();
@@ -84,6 +84,9 @@ class LeaderboardStoreService
         $this->leads['keyTable'] = $keyTable;
     }
 
+    /**
+     * @return bool whether data got inserted or not
+     */
     private function _checkAndInsertIntoLeaderboard(RiddleData $data)
     {
         if (count($this->getEntries()) < $this->module->getLeaderboardLength()) {
@@ -102,19 +105,30 @@ class LeaderboardStoreService
                 return true;
             }
         }
-    }
 
+        return false;
+    }
+ 
+    /**
+     * This function checks if the leaderboard is already on the leaderboard and checks if a new lead should be inserted
+     * 
+     * a new lead should be inserted if:
+     * - the new lead data has a higher percentage than the old lead
+     * - if the lead is not on the leaderboard yet
+     * 
+     * @return bool returns true if the lead should be inserted; false if not
+     */
     private function _checkForDuplicates(RiddleData $data)
     {
         $leaderboardLead = $this->getLeaderboardLeadByKey($data);
-        if (!$leaderboardLead) { // the user isn't in the leaderboards yet
+
+        if ($leaderboardLead === null) { // the user isn't on the leaderboard yet
             return true;
         }
 
         // return the old result because this one is better
         if ($data->getResultData()->scorePercentage > $leaderboardLead['percentage']) {
             $this->_deleteLeaderboardLead($data);
-            
             return true;
         }
 
@@ -134,13 +148,13 @@ class LeaderboardStoreService
         $leadKeyValue = $this->module->getHelperService()->getLeadKeyValue($data);
 
         if (!$leadKeyValue) { // the data contains no lead data and therefore no lead key value exists
-            return false;
+            return null;
         }
 
         $index = $this->getKeyIndex($leadKeyValue);
 
-        if (!$index) { // nothing was found.
-            return false;
+        if ($index === false) { // nothing was found.
+            return null;
         }
 
         return $this->leads['entries'][$index];

@@ -49,7 +49,7 @@ class LeaderboardPlacementShortcode extends ModuleShortcode
     private function _getPlacementString(array $args) 
     {
         $mode = $this->_getPlacementStringMode($args);
-        $placement = $this->module->getHelperService()->getPlacementByData($this->module->getApp()->getData());
+        $placement = $this->module->getHelperService()->getPlacementByData($this->module->getApp()->getData()) + 1;
 
         if ('number' === $mode) { // to write e.g. 16/20 - easiest solution
             return $placement;
