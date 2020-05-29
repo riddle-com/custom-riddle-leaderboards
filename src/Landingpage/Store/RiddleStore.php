@@ -63,6 +63,8 @@ abstract class RiddleStore
         $leadKeyValue = $lead->$leadKey->value;
         $data = $data->getJsonData();
         $data['createdAt'] = time();
+        $data['resultData']['scorePercentage'] = round($data['resultData']['scorePercentage'], 2);
+        
         $this->leads[$leadKeyValue] = $data;
 
         return $data;

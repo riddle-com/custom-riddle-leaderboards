@@ -6,9 +6,8 @@ class LeaderboardMissedPlaceShortcode extends ModuleShortcode
 {
 
     private static $NAME = 'missed-place';
-    private static $TEMPLATE = "You've missed out on the %%PLACE%% by %%PERCENTAGE%%% - try again to be one of the best.";
+    private static $TEMPLATE = "You've missed out on the top 10 by %%PERCENTAGE%%% - try again to be one of the best.";
     private static $PLACE = 10; // default: top 10
-    private static $PLACE_NAME = 'top 10';
 
     public function __construct($module) 
     {
@@ -39,8 +38,7 @@ class LeaderboardMissedPlaceShortcode extends ModuleShortcode
 
         $missedBy = 100 - floor($percentageAchieved / ($percentageBorder / 100));
         $replacements = [
-            'percentage' => $missedBy,
-            'place' => $this->_getPlaceName($args)
+            'percentage' => $missedBy
         ];
 
         return $this->_getTemplate($args, $replacements);
@@ -51,13 +49,6 @@ class LeaderboardMissedPlaceShortcode extends ModuleShortcode
         return isset($args['place']) && is_numeric($args['place']) 
             ? $args['place'] 
             : self::$PLACE;
-    }
-
-    private function _getPlaceName(array $args) 
-    {
-        return isset($args['placeName']) && is_string($args['placeName']) 
-            ? $args['placeName'] 
-            : self::$PLACE_NAME;
     }
 
     protected function _getTemplate(array $args, $replacements) 

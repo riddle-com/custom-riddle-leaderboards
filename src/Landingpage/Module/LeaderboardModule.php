@@ -48,12 +48,16 @@ class LeaderboardModule
         return $this->storeService->processAndStore($data);
     }
 
-    public function render(RiddlePageRenderer $renderer)
+    /**
+     * @param RiddlePageRenderer $renderer
+     * @param string $emptyMessage The string that gets rendered when there are no leaderboard leads
+     */
+    public function render(RiddlePageRenderer $renderer, array $options = [])
     {
         $leads = $this->storeService->getEntries();
 
         if (empty($leads)) {
-            return 'there are no leaderboard leads yet.';
+            return isset($options['emptyMessage']) ? $options['emptyMessage'] : 'there are no leaderboard leads yet.';
         }
 
         return RiddleTools::getViewContents($this->_getViewPath(), [

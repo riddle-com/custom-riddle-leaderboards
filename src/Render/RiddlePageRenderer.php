@@ -40,7 +40,7 @@ class RiddlePageRenderer
     /**
      * Renders the view.
      */
-    public function render($data = null, $loadStore = true, $viewPath = null)
+    public function render($data = null, bool $loadStore = true, string $viewPath = null)
     {
         if (!$this->_viewExists()) {
             throw new BadConfigException('The landingpage view does not exist (path: ' . $this->getViewPath() . ').');
@@ -72,10 +72,10 @@ class RiddlePageRenderer
     {
         $leaderboard = $this->app->getLeaderboardModule();
             
-        return $leaderboard->render($this);
+        return $leaderboard->render($this, $options);
     }
 
-    public function renderBlock(string $blockName, array $args = []) :string
+    public function renderBlock(string $blockName, array $args = [])
     {
         if (!method_exists($this->renderObject, 'renderBlock')) {
             throw new BadConfigException('The block ' . $blockName . ' does not support block rendering.');

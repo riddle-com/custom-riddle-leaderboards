@@ -169,7 +169,7 @@ class LeaderboardStoreService
             'key' => $leadKeyValue,
 
             // gets only saved to sort the leaderboard as fast as possible
-            'percentage' => $data->getResultData()->scorePercentage,
+            'percentage' => round($data->getResultData()->scorePercentage, 2), // only save 2 digits after the dot
             
             // first placement - keep track on how many places a user has dropped
             'placement' => $entryCount + 1,
