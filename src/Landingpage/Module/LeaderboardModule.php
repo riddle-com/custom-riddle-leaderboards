@@ -141,5 +141,4 @@ class LeaderboardModule
 
         return $path;
     }
-
 }

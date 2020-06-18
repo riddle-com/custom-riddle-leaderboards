@@ -7,11 +7,10 @@ use Riddle\Landingpage\RiddleData;
 
 class LeaderboardHelperService
 {
-
     private $module;
     private $lastLeadDisplayed;
 
-    public function __construct(LeaderboardModule $module) 
+    public function __construct(LeaderboardModule $module)
     {
         $this->module = $module;
         $this->lastLeadDisplayed = 0; // helper variable to ensure that no leads are displayed twice
@@ -19,7 +18,7 @@ class LeaderboardHelperService
 
     /**
      * Returns the placement the user is on and finds the user by a lead key.
-     * 
+     *
      * @param $data (RiddleData) a RiddleData object
      * @return (int|boolean) the placement the user is on. e.g. returns 1 => first place; returns false if the user is not on the leaderboard
      */
@@ -79,5 +78,4 @@ class LeaderboardHelperService
     {
         return $this->lastleadDisplayed == count($this->module->getStoreService()->getEntries());
     }
-
 }

@@ -8,14 +8,13 @@ namespace Riddle\Landingpage\Module\Shortcode;
 
 class LeaderboardPlacementShortcode extends ModuleShortcode
 {
-
     private static $NAME = 'placement';
     private static $TEMPLATE = "Your placement: %%PLACEMENT%% out of %%TOTAL%%";
     private static $DEFAULT_FIRST_PLACE_NAMES = ['first', 'second', 'third'];
     private static $DEFAULT_FIRST_PLACE_SHORT_NAMES = ['st', 'nd', 'rd'];
     private static $DEFAULT_PLACEMENT_STRING_MODE = 'english';
 
-    public function __construct($module) 
+    public function __construct($module)
     {
         parent::__construct(self::$NAME, $module);
     }
@@ -35,7 +34,7 @@ class LeaderboardPlacementShortcode extends ModuleShortcode
         return $this->_getTemplate($args, $replacements);
     }
 
-    protected function _getTemplate(array $args, $replacements) 
+    protected function _getTemplate(array $args, $replacements)
     {
         $template = isset($args['template']) ? $args['template'] : self::$TEMPLATE;
 
@@ -46,7 +45,7 @@ class LeaderboardPlacementShortcode extends ModuleShortcode
         return $template;
     }
 
-    private function _getPlacementString(array $args) 
+    private function _getPlacementString(array $args)
     {
         $mode = $this->_getPlacementStringMode($args);
         $placement = $this->module->getHelperService()->getPlacementByData($this->module->getApp()->getData()) + 1;
@@ -64,7 +63,7 @@ class LeaderboardPlacementShortcode extends ModuleShortcode
         throw new \InvalidArgumentException('Invalid placement string mode supplied. available: number & ' . self::$DEFAULT_PLACEMENT_STRING_MODE);
     }
 
-    private function _getFirstPlaceShortName($placement, array $args) 
+    private function _getFirstPlaceShortName($placement, array $args)
     {
         $mod = $placement % 10;
 
@@ -79,7 +78,7 @@ class LeaderboardPlacementShortcode extends ModuleShortcode
             return self::$DEFAULT_FIRST_PLACE_SHORT_NAMES;
         }
 
-        if(!is_array($args['firstPlaceShortNames']) || count($args['firstPlaceShortNames']) !== 3) {
+        if (!is_array($args['firstPlaceShortNames']) || count($args['firstPlaceShortNames']) !== 3) {
             throw new \InvalidArgumentException('The argument \'firstPlaceShortNames\' has to be an array and has to be three items long.');
         }
 
@@ -92,7 +91,7 @@ class LeaderboardPlacementShortcode extends ModuleShortcode
             return self::$DEFAULT_FIRST_PLACE_NAMES;
         }
 
-        if(!is_array($args['firstPlaceNames']) || count($args['firstPlaceNames']) !== 3) {
+        if (!is_array($args['firstPlaceNames']) || count($args['firstPlaceNames']) !== 3) {
             throw new \InvalidArgumentException('The argument \'firstPlaceNames\' has to be an array and has to have the length of 3.');
         }
 
@@ -104,7 +103,7 @@ class LeaderboardPlacementShortcode extends ModuleShortcode
      * Two modes are suppported at the moment
      *  - english (st, nd, rd, ...)
      *  - number (returns only the placement itself)
-     * 
+     *
      * The 'number' mode is much fore flexible since it only outputs a number and doesn't append st, nd, rd to the placements.
      * Pick the 'english mode if you want to display your leaderboard completely in the English language.
      */
@@ -114,5 +113,4 @@ class LeaderboardPlacementShortcode extends ModuleShortcode
             ? $args['placementStringMode']
             : self::$DEFAULT_PLACEMENT_STRING_MODE;
     }
-
 }

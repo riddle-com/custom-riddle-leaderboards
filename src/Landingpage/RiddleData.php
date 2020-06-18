@@ -15,8 +15,8 @@ class RiddleData
         $this->data = $data;
     }
 
-        /**
-     * 
+    /**
+     *
      * @return int
      */
     public function getId()
@@ -25,7 +25,7 @@ class RiddleData
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getTitle()
@@ -34,7 +34,7 @@ class RiddleData
     }
 
     /**
-     * 
+     *
      * @return object
      */
     public function getLead()
@@ -43,7 +43,7 @@ class RiddleData
     }
 
     /**
-     * 
+     *
      * @return array
      */
     public function getLeadFields()
@@ -56,7 +56,7 @@ class RiddleData
     }
 
     /**
-     * 
+     *
      * @return array
      */
     public function getAnswers()
@@ -65,7 +65,7 @@ class RiddleData
     }
 
     /**
-     * 
+     *
      * @return array
      */
     public function getResult()
@@ -74,7 +74,7 @@ class RiddleData
     }
     
     /**
-     * 
+     *
      * @return object|null returns null if there's no data.
      */
     public function getResultData()
@@ -83,7 +83,7 @@ class RiddleData
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getCreatedAt()
@@ -92,7 +92,7 @@ class RiddleData
     }
 
     /**
-     * 
+     *
      * @return object
      */
     public function getData()

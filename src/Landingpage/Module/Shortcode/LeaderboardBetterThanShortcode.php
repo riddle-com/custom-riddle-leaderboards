@@ -4,11 +4,10 @@ namespace Riddle\Landingpage\Module\Shortcode;
 
 class LeaderboardBetterThanShortcode extends ModuleShortcode
 {
-
     private static $NAME = 'better-than';
     private static $TEMPLATE = "You're better than %%PERCENTAGE%%% of all the quiz takers. Congratulations!";
 
-    public function __construct($module) 
+    public function __construct($module)
     {
         parent::__construct(self::$NAME, $module);
     }
@@ -40,11 +39,10 @@ class LeaderboardBetterThanShortcode extends ModuleShortcode
         return isset($args['min']) ? $args['min'] : 0;
     }
 
-    private function _getTemplate(array $args, $percentage) 
+    private function _getTemplate(array $args, $percentage)
     {
         $template = isset($args['template']) ? $args['template'] : self::$TEMPLATE;
 
         return str_replace('%%PERCENTAGE%%', $percentage, $template);
     }
-
 }

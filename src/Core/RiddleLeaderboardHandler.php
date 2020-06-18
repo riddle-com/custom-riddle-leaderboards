@@ -15,7 +15,7 @@ class RiddleLeaderboardHandler
 
     /**
      * Constructor
-     * 
+     *
      * @param $riddleFallbackId the riddle ID which should be displayed if there's no data
      * @param $acceptData pass false if you don't want this leaderboard to save data (e.g. leaderboard view only, do not write any data on it)
      */
@@ -77,7 +77,7 @@ class RiddleLeaderboardHandler
         return null;
     }
 
-    private function _userSkippedLeadForm($riddleData) 
+    private function _userSkippedLeadForm($riddleData)
     {
         return $riddleData === null || empty((array) $riddleData->getLead());
     }
@@ -88,7 +88,7 @@ class RiddleLeaderboardHandler
      */
     protected function _getRenderer($riddleData)
     {
-        $viewName = $this->_userSkippedLeadForm($riddleData) && -1 === $this->riddleFallbackId 
+        $viewName = $this->_userSkippedLeadForm($riddleData) && -1 === $this->riddleFallbackId
             ? 'renderNoDataView' // if the user skipped the form and no fallback riddle ID is defined
             : 'renderView';
         $viewName = $this->app->getConfig()->getProperty($viewName);
@@ -100,10 +100,10 @@ class RiddleLeaderboardHandler
     /**
      * Checks if the user is permitted to see the page.
      * This functions uses the config property 'secret'.
-     * 
+     *
      * This function kills (via die()) the page if no secret is set or the secret is not equals the secret the user has submitted.
      */
-    protected function _authenticate() 
+    protected function _authenticate()
     {
         $secret = $this->app->getConfig()->getProperty('secret');
 
@@ -163,7 +163,7 @@ class RiddleLeaderboardHandler
 
     /**
      * Override this function if you want to inject entries (= users on the leaderboard)
-     * 
+     *
      * @return null if this function should be "ignored" and the normal entries should be used
      */
     public function getEntries()
@@ -173,7 +173,7 @@ class RiddleLeaderboardHandler
 
     /**
      * Every entry can be associated with one entry
-     * 
+     *
      * @return null if this function should be "ignored" and the normal leads should be used
      */
     public function getLeads()

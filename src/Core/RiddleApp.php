@@ -2,9 +2,9 @@
 
 /**
  * @since 1.0
- * 
- * This is the "heart" of the application. 
- * This class holds many objects and provides it to all the services this application needs. 
+ *
+ * This is the "heart" of the application.
+ * This class holds many objects and provides it to all the services this application needs.
  */
 
 namespace Riddle\Core;
@@ -17,19 +17,18 @@ use Riddle\Landingpage\RiddleData;
 
 class RiddleApp
 {
-
     private $leaderboardHandler;
 
     /**
      * @var integer
-     *  
+     *
      * The riddle id which the webhook received
      */
     private $riddleId;
 
     /**
      * @var RiddleData
-     * 
+     *
      * Stores the riddle webhook data (if available)
      */
     private $data;
@@ -58,7 +57,7 @@ class RiddleApp
     /**
      * This method processes the data which the webhook has received.
      * It sends the data to the RiddleStore and to all the modules which have been registered.
-     * 
+     *
      * @param $data (RiddleData) webhook riddle data
      */
     public function processData(RiddleData $data)
@@ -80,7 +79,7 @@ class RiddleApp
         return new RiddleJsonStore($this);
     }
 
-    public static function getBaseUrl() 
+    public static function getBaseUrl()
     {
         $hostName = $_SERVER['HTTP_HOST'];
         $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] && $_SERVER['HTTPS'] !== "off") ? "https" : "http";
@@ -97,7 +96,7 @@ class RiddleApp
         return $this->config;
     }
 
-    public function setConfig(RiddleConfig $config) 
+    public function setConfig(RiddleConfig $config)
     {
         $this->config = $config;
     }
@@ -137,7 +136,7 @@ class RiddleApp
         return $this->data;
     }
 
-    public function setData(RiddleData $data) 
+    public function setData(RiddleData $data)
     {
         $this->data = $data;
     }
@@ -151,5 +150,4 @@ class RiddleApp
     {
         return $this->leaderboardHandler;
     }
-    
 }

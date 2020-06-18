@@ -12,7 +12,6 @@ use Riddle\Exception\FileNotFoundException;
 
 class RiddlePageSkeleton
 {
-
     private $app;
 
     private $head = '';
@@ -30,7 +29,7 @@ class RiddlePageSkeleton
 
     /**
      * This method renders the whole skeleton and therefore the whole page.
-     * 
+     *
      * @param $webhookTemplate default: false, pass a different template here if you don't want the default template but use the config if possible
      */
     public function print($webhookTemplate = false)
@@ -125,7 +124,7 @@ class RiddlePageSkeleton
         $html .= '</style>';
     }
 
-    public function dieWithError($error) 
+    public function dieWithError($error)
     {
         $this->body = $error;
         $this->print($this->app->getConfig()->getProperty('webhookErrorTemplate'));
@@ -143,7 +142,7 @@ class RiddlePageSkeleton
         return $this->head;
     }
 
-    public function setHead($head) 
+    public function setHead($head)
     {
         $this->head = $head;
     }
@@ -153,7 +152,7 @@ class RiddlePageSkeleton
         return $this->body;
     }
 
-    public function setBody($body) 
+    public function setBody($body)
     {
         $this->body = $body;
     }
@@ -163,9 +162,8 @@ class RiddlePageSkeleton
         return $this->footer;
     }
 
-    public function setFooter($footer) 
+    public function setFooter($footer)
     {
         $this->footer = $footer;
     }
-
 }

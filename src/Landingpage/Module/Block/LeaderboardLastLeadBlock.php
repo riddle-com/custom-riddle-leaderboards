@@ -2,9 +2,9 @@
 
 /**
  * @since 1.0
- * 
+ *
  * This block renders the last leaderboard lead.
- * 
+ *
  * @param $args (array) the following args exist:
  *  - template: the html template this block uses to render.
  */
@@ -15,7 +15,6 @@ use Riddle\Tools\RiddleTools;
 
 class LeaderboardLastLeadBlock extends LeaderboardLeadsBlock
 {
-
     public function render(array $args)
     {
         // render the last lead only if it's not already displayed
@@ -31,5 +30,4 @@ class LeaderboardLastLeadBlock extends LeaderboardLeadsBlock
         
         return parent::render($args);
     }
-    
 }

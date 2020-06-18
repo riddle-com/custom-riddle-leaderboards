@@ -4,12 +4,11 @@ namespace Riddle\Landingpage\Module\Shortcode;
 
 class LeaderboardMissedPlaceShortcode extends ModuleShortcode
 {
-
     private static $NAME = 'missed-place';
     private static $TEMPLATE = "You've missed out on the top 10 by %%PERCENTAGE%%% - try again to be one of the best.";
     private static $PLACE = 10; // default: top 10
 
-    public function __construct($module) 
+    public function __construct($module)
     {
         parent::__construct(self::$NAME, $module);
     }
@@ -24,8 +23,8 @@ class LeaderboardMissedPlaceShortcode extends ModuleShortcode
         $missedPlace = $this->_getPlace($args);
 
         /**
-         * Return an empty string 
-         * if the placement is better than the missed place 
+         * Return an empty string
+         * if the placement is better than the missed place
          * OR
          * if the total entries is not as big as the missed place
          */
@@ -46,12 +45,12 @@ class LeaderboardMissedPlaceShortcode extends ModuleShortcode
 
     private function _getPlace(array $args)
     {
-        return isset($args['place']) && is_numeric($args['place']) 
-            ? $args['place'] 
+        return isset($args['place']) && is_numeric($args['place'])
+            ? $args['place']
             : self::$PLACE;
     }
 
-    protected function _getTemplate(array $args, $replacements) 
+    protected function _getTemplate(array $args, $replacements)
     {
         $template = isset($args['template']) ? $args['template'] : self::$TEMPLATE;
 
@@ -61,5 +60,4 @@ class LeaderboardMissedPlaceShortcode extends ModuleShortcode
 
         return $template;
     }
-
 }

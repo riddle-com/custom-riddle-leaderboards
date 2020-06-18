@@ -13,7 +13,7 @@ abstract class ModuleBlock
         $this->module = $module;
     }
 
-    abstract function render(array $args);
+    abstract public function render(array $args);
 
     private function _extendsWebhookModule($module)
     {

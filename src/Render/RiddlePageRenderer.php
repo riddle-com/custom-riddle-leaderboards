@@ -2,7 +2,7 @@
 
 /**
  * @since 1.0
- * 
+ *
  * This class handles the page rendering of the webhook.
  */
 
@@ -15,7 +15,6 @@ use Riddle\Landingpage\RiddleInjectedData;
 
 class RiddlePageRenderer
 {
-
     private $app;
     private $view;
     private $renderObject;
@@ -24,7 +23,7 @@ class RiddlePageRenderer
 
     /**
      * Constructor of RiddlePageRenderer
-     * 
+     *
      * @param $app (RiddleApp) the main RiddleApp object
      * @param $view (string) Name of the riddle view
      * @param $renderObject
@@ -84,7 +83,7 @@ class RiddlePageRenderer
         return $this->renderObject->renderBlock($blockName, $args);
     }
 
-    public function get(string $dataKey) 
+    public function get(string $dataKey)
     {
         return RiddleTools::getArrayElementFromInnerHtml($dataKey, $this->data);
     }
@@ -116,5 +115,4 @@ class RiddlePageRenderer
     {
         return $this->injectedData;
     }
-
 }

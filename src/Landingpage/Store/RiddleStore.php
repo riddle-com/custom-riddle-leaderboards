@@ -12,7 +12,6 @@ use Riddle\Landingpage\RiddleData;
 
 abstract class RiddleStore
 {
-    
     protected $app;
     protected $leads;
 
@@ -25,7 +24,8 @@ abstract class RiddleStore
      * Loads all the leads into an array.
      * Checks if the LeaderboardHandler injected any leads and if not uses the normal leads
      */
-    public function load() {
+    public function load()
+    {
         $handler = $this->app->getLeaderboardHandler();
 
         if ($handler && is_array($handler->getLeads())) {
@@ -37,9 +37,9 @@ abstract class RiddleStore
         return $this->leads;
     }
 
-    protected abstract function _loadLeads();
+    abstract protected function _loadLeads();
 
-    abstract function store(); // save function
+    abstract public function store(); // save function
 
     public function isLoaded()
     {
@@ -79,7 +79,7 @@ abstract class RiddleStore
         unset($this->leads[$key]);
     }
 
-    public function getLead($leadKey) 
+    public function getLead($leadKey)
     {
         if (!isset($this->leads[$leadKey])) {
             return false;
@@ -92,6 +92,4 @@ abstract class RiddleStore
     {
         return $this->leads;
     }
-
 }
-

@@ -26,7 +26,7 @@ class LeaderboardStoreService
     /**
      * Core method of this service.
      * Processes the lead (inserts it / updates it) and eventually refreshes the leads file.
-     * 
+     *
      * @param bool $save pass false if the file shouldn't be saved (e.g. for test purposes)
      * @return bool returns whether the lead was stored on the leaderboard
      */
@@ -120,7 +120,7 @@ class LeaderboardStoreService
     /**
      * Refreshes the key table.
      * This key table enables the leaderboard to look up every lead as quickly as possible.
-     * 
+     *
      * Reason: Because isset, array_key_exists, ... is way faster than array_search it's easier to just
      * create a key/hash table which contains the key indexes of the associated entries.
      */
@@ -155,7 +155,7 @@ class LeaderboardStoreService
      * Gets a leaderboard entry by a RiddleData object.
      * Procedure: Looks key up in the key table and if the key exists it returns an index of the entries index.
      * This is particularly faster because array_key_exists() is way faster than array_search() e.g.
-     * 
+     *
      * @param $data The riddle data which should be looked for
      * @return (array|boolean) returns false if the entry doesn't exist
      */
@@ -178,7 +178,7 @@ class LeaderboardStoreService
 
     /**
      * Inserts a fresh set of data to the leaderboard (if the lead key does not exist already)
-     * 
+     *
      * @return array the complete leaderboard entry
      */
     private function _addData(RiddleData $data)
@@ -203,7 +203,7 @@ class LeaderboardStoreService
 
     /**
      * Updates scoreNumber and adds a date to the array to keep track of how a user behaves and to spot potentital cheaters.
-     * 
+     *
      * @return array the complete leaderboard entry
      */
     private function _updateData(RiddleData $data)
@@ -307,7 +307,7 @@ class LeaderboardStoreService
             : [];
     }
 
-    public function getKeyIndex($leadKey) 
+    public function getKeyIndex($leadKey)
     {
         if (!isset($this->leads['keyTable'][$leadKey])) {
             return false;
@@ -338,5 +338,4 @@ class LeaderboardStoreService
     {
         RiddleTools::saveFile($this->_getLeaderboardLeadsPath(), json_encode($this->leads));
     }
-
 }

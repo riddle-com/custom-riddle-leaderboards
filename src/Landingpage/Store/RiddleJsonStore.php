@@ -10,7 +10,6 @@ use Riddle\Tools\RiddleTools;
 
 class RiddleJsonStore extends RiddleStore
 {
-
     protected function _loadLeads()
     {
         $leadsFilePath = $this->_getLeadsFilePath();
@@ -33,5 +32,4 @@ class RiddleJsonStore extends RiddleStore
 
         return $appDir . '/leads-' . $this->app->getRiddleId() . '.json';
     }
-
 }

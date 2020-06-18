@@ -2,7 +2,7 @@
 
 /**
  * @since 1.0
- * 
+ *
  * This class manages the riddle config.
  */
 
@@ -13,7 +13,6 @@ use Riddle\Exception\FileNotFoundException;
 
 class RiddleConfig
 {
-
     private $app;
     private $properties;
 
@@ -28,7 +27,7 @@ class RiddleConfig
 
     /**
      * Returns a property with the given $propertyName
-     * 
+     *
      * @param $propertyName (mixed)
      * @return (mixed) property object
      */
@@ -43,7 +42,7 @@ class RiddleConfig
 
     /**
      * Returns all the properties of a config.
-     * 
+     *
      * @return (array) returns an empty array if the (sub)config doesn't exist
      */
     public function getProperties()
@@ -53,7 +52,7 @@ class RiddleConfig
 
     /**
      * Adds the properties of a config file to this config
-     * 
+     *
      * @param $configPath (string) the path of the config file
      * @throws Riddle\Exception\FileNotFoundException if the subconfig file doesn't exist.
      * @throws Riddle\Exception\BadConfigException if the config is faulty (either $config is not set or $config is not an array)
@@ -90,5 +89,4 @@ class RiddleConfig
 
         $this->defaultProperties = $config;
     }
-
 }

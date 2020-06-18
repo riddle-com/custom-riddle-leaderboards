@@ -12,14 +12,13 @@ class RiddleTools
 {
 
     /**
-     * @param (string) $innerhtml e.g. lead2.Name.value => searches the array for this element 
+     * @param (string) $innerhtml e.g. lead2.Name.value => searches the array for this element
      */
     public static function getArrayElementFromInnerHtml(string $innerHtml, array $data)
     {
         $arrayPathElements = explode('.', trim($innerHtml)); // e.g. lead.Name
 
-        foreach ($arrayPathElements as $pathKey)
-        {
+        foreach ($arrayPathElements as $pathKey) {
             $pathKey = trim(strip_tags($pathKey));
             
             if (!is_array($data) || !array_key_exists($pathKey, $data)) {
@@ -48,7 +47,7 @@ class RiddleTools
         return $app->getConfig()->getProperty('viewsPath') . '/' . $view . '.' . $extension;
     }
 
-    public static function getEverythingInTags($string, $startTag = '{', $endTag = '}') 
+    public static function getEverythingInTags($string, $startTag = '{', $endTag = '}')
     {
         preg_match_all('/\\' . $startTag . '(.*?)\\' . $endTag . '/', $string, $matches); // get everything in { XYZ }
 
@@ -64,7 +63,7 @@ class RiddleTools
         return $app->getConfig()->getProperty('rendereredViewsPath') . '/' . $view . '.' . $extension;
     }
 
-    public static function getDataFilePath($app, $fileName) 
+    public static function getDataFilePath($app, $fileName)
     {
         return $app->getConfig()->getProperty('dataPath') . '/' .$fileName;
     }

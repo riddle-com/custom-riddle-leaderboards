@@ -5,13 +5,12 @@ namespace Riddle\Landingpage;
 /**
  * This data gets injected to all the views & templates and gives the developer the freedom
  * of pasing any data to these views/templates.
- * 
+ *
  * This gets used in our WP plugin. Have a look at the source to see how you can implement it yourself!
  */
 
 class RiddleInjectedData
 {
-
     private $data;
     private $defaultData;
 
@@ -21,7 +20,7 @@ class RiddleInjectedData
         $this->defaultData = $defaultData;
     }
 
-    public function getValue($key, $default = null, $fallbackToDefault = true) 
+    public function getValue($key, $default = null, $fallbackToDefault = true)
     {
         if (!isset($this->data[$key])) {
             return $fallbackToDefault ? $this->_getDefaultValue($key) : $default;
@@ -38,5 +37,4 @@ class RiddleInjectedData
 
         return $this->defaultData[$key];
     }
-
 }

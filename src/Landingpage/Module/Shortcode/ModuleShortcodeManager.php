@@ -4,7 +4,6 @@ namespace Riddle\Landingpage\Module\Shortcode;
 
 class ModuleShortcodeManager
 {
-
     private $shortcodes;
 
     public function __construct()
@@ -25,5 +24,4 @@ class ModuleShortcodeManager
 
         return $this->shortcodes[$shortcodeName]->render($args);
     }
-
 }

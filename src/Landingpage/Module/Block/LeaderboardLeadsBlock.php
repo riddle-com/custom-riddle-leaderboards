@@ -2,11 +2,11 @@
 
 /**
  * @since 1.0
- * 
+ *
  * This block can render a specific range of leaderboard leads.
- * 
+ *
  * @param $args (array) the following arguments exist:
- *  - range: 
+ *  - range:
  *      - can be a number: e.g. 5 => only displays the 5th entry
  *      - can be an array: e.g. [1, 5] => displays the leaderboard entries from 1 to 5
  *      - can be a string: 'all', 'last'
@@ -75,7 +75,7 @@ class LeaderboardLeadsBlock extends ModuleBlock
         return trim($html);
     }
 
-    private function _renderTableRow(int $i, array $data, string $htmlTemplate) 
+    private function _renderTableRow(int $i, array $data, string $htmlTemplate)
     {
         $lead = isset($data['trunk'])
             ? $data['trunk'] // now the data is included inside the leaderboard lead
@@ -102,7 +102,7 @@ class LeaderboardLeadsBlock extends ModuleBlock
                 $dataValue = RiddleTools::getArrayElementFromInnerHtml($arrayElement, $data);
             }
 
-            if (isset($matchParts[1]) ) {
+            if (isset($matchParts[1])) {
                 $dataValue = $this->_filterValue($matchParts[1], $dataValue);
             }
 
@@ -130,7 +130,7 @@ class LeaderboardLeadsBlock extends ModuleBlock
         return $data['key'] === $currentData->getLead()->Email->value;
     }
 
-    protected function _getRange($range) 
+    protected function _getRange($range)
     {
         /**
          * Example: 'range' => [1, 10] => leaderboard leads from 1 - 10
@@ -187,7 +187,7 @@ class LeaderboardLeadsBlock extends ModuleBlock
         ];
     }
 
-    protected function _filterValue($filter, $value) 
+    protected function _filterValue($filter, $value)
     {
         $filter = strtolower(trim($filter));
 
@@ -207,7 +207,7 @@ class LeaderboardLeadsBlock extends ModuleBlock
         return $this->module->getStoreService()->getEntries();
     }
 
-    private function _appendPrefix(string &$html, array $args) 
+    private function _appendPrefix(string &$html, array $args)
     {
         if (isset($args['templatePrefix'])) {
             $html = $args['templatePrefix'] . $html;
@@ -216,7 +216,7 @@ class LeaderboardLeadsBlock extends ModuleBlock
         return $html;
     }
 
-    private function _appendSuffix(string &$html, array $args) 
+    private function _appendSuffix(string &$html, array $args)
     {
         if (isset($args['templateSuffix']) && !$this->module->getHelperService()->everyLeadisDisplayed()) {
             $html .= $args['templateSuffix'];
@@ -225,12 +225,12 @@ class LeaderboardLeadsBlock extends ModuleBlock
         return $html;
     }
 
-    private function _leadRangeIsAlreadyDisplayed(array $range) 
+    private function _leadRangeIsAlreadyDisplayed(array $range)
     {
         return $range['end'] + 1 <= $this->module->getHelperService()->getLastLeadDisplayed();
     }
 
-    private function _insertEncryptedEmail(&$lead) 
+    private function _insertEncryptedEmail(&$lead)
     {
         $leadKeyValue = $this->module->getHelperService()->getLeadKeyValueInArray($lead);
         $encryptedMail = 'could not find the lead email.';
@@ -245,7 +245,7 @@ class LeaderboardLeadsBlock extends ModuleBlock
         return isset($args['onlyOnce']) && $args['onlyOnce'];
     }
 
-    private function _encryptEmail(string $email) 
+    private function _encryptEmail(string $email)
     {
         $emailParts = explode('@', $email);
 
@@ -260,7 +260,7 @@ class LeaderboardLeadsBlock extends ModuleBlock
         return $emailName . '@' . $domainName . '.' . $domainParts[1];
     }
 
-    private function _encryptStringWithAsterisks(string $string) 
+    private function _encryptStringWithAsterisks(string $string)
     {
         if (strlen($string) <= 2) {
             return str_repeat('*', strlen($string));
