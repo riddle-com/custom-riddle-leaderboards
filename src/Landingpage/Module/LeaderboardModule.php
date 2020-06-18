@@ -125,6 +125,11 @@ class LeaderboardModule
         return $this->helperService;
     }
 
+    public function getMode()
+    {
+        return $this->app->getConfig()->getProperty('leaderboardMode');
+    }
+
     private function _getViewPath()
     {
         $viewsPath = $viewsPath = $this->app->getConfig()->getProperty('viewsPath');

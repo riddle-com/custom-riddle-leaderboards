@@ -9,7 +9,6 @@ use Riddle\Render\RiddlePageSkeleton;
 
 class RiddleLeaderboardHandler
 {
-
     protected $app;
     protected $riddleFallbackId; // This riddle ID gets rendered when there's no data
     protected $acceptData;
@@ -26,7 +25,8 @@ class RiddleLeaderboardHandler
         $this->acceptData = $acceptData;
 
         $this->app = new RiddleApp($this);
-        $this->_loadUserConfig();
+        $this->loadUserConfig();
+        $this->app->init(); // before the init the config has to be loaded
     }
 
     public function start()
@@ -77,9 +77,6 @@ class RiddleLeaderboardHandler
         return null;
     }
 
-    /**
-     * @return bool whether the user skipped the lead form (there's no user data / no lead data)
-     */
     private function _userSkippedLeadForm($riddleData) 
     {
         return $riddleData === null || empty((array) $riddleData->getLead());
@@ -127,7 +124,7 @@ class RiddleLeaderboardHandler
      * override this function if you want to load the main config in another way.
      * (we use that in our WP plugin)
      */
-    protected function _loadUserConfig()
+    public function loadUserConfig()
     {
         $configPath = APP_DIR . '/config/RiddleConfig.php';
 
@@ -159,6 +156,11 @@ class RiddleLeaderboardHandler
         return $this->riddleFallbackId;
     }
 
+    public function isPreview()
+    {
+        return false;
+    }
+
     /**
      * Override this function if you want to inject entries (= users on the leaderboard)
      * 
@@ -178,5 +180,4 @@ class RiddleLeaderboardHandler
     {
         return null;
     }
-
 }

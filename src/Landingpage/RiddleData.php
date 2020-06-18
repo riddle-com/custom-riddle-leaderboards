@@ -8,7 +8,6 @@ namespace Riddle\Landingpage;
 
 class RiddleData
 {
-
     private $data;
 
     public function __construct($data)
@@ -24,6 +23,7 @@ class RiddleData
     {
         return (int) $this->data->riddle->id;
     }
+
     /**
      * 
      * @return string
@@ -32,6 +32,7 @@ class RiddleData
     {
         return $this->data->riddle->title;
     }
+
     /**
      * 
      * @return object
@@ -40,6 +41,7 @@ class RiddleData
     {
         return isset($this->data->lead2) ? $this->data->lead2 : null;
     }
+
     /**
      * 
      * @return array
@@ -52,6 +54,7 @@ class RiddleData
         }
         return $fields;
     }
+
     /**
      * 
      * @return array
@@ -60,6 +63,7 @@ class RiddleData
     {
         return isset($this->data->answers) ? $this->data->answers : null;
     }
+
     /**
      * 
      * @return array
@@ -71,12 +75,13 @@ class RiddleData
     
     /**
      * 
-     * @return array
+     * @return object|null returns null if there's no data.
      */
     public function getResultData()
     {
         return isset($this->data->resultData) ? $this->data->resultData : null;
     }
+
     /**
      * 
      * @return string
@@ -85,6 +90,7 @@ class RiddleData
     {
         return $this->createdAt;
     }
+
     /**
      * 
      * @return object
@@ -101,16 +107,4 @@ class RiddleData
     {
         return json_decode(json_encode($this->data), true);
     }
-    
-    /**
-     * Check if request is from riddle
-     */
-    private function _checkRequest()
-    {
-        if ($_SERVER['HTTP_ORIGIN'] !== 'https://www.riddle.com') {
-            header("HTTP/1.0 404 Not Found");
-            exit;
-        }
-    }
-
 }

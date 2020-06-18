@@ -43,13 +43,13 @@ class LeaderboardLeadsBlock extends ModuleBlock
 
         $template = $args['template'];
         $spotTemplate = isset($args['spotTemplate']) ? $args['spotTemplate'] : $template;
-        $html .= $this->_renderTableRows($range, $template, $spotTemplate);
+        $html .= $this->_renderTableRows($range, $template, $spotTemplate, $args);
         $this->_appendSuffix($html, $args);
 
         return $html;
     }
 
-    private function _renderTableRows($range, $htmlTemplate, $spotTemplate)
+    private function _renderTableRows(array $range, string $htmlTemplate, string $spotTemplate, array $args)
     {
         $html = '';
         $i = $range['start'];
@@ -66,7 +66,7 @@ class LeaderboardLeadsBlock extends ModuleBlock
             }
 
             $template = $this->_isCurrentLead($data) ? $spotTemplate : $htmlTemplate;
-            $htmlRow = $this->_renderTableRow($i, $data['key'], $template);
+            $htmlRow = $this->_renderTableRow($i, $data, $template);
             $html .= $htmlRow;
 
             $i++;
@@ -75,9 +75,11 @@ class LeaderboardLeadsBlock extends ModuleBlock
         return trim($html);
     }
 
-    private function _renderTableRow($i, $leadKey, $htmlTemplate) 
+    private function _renderTableRow(int $i, array $data, string $htmlTemplate) 
     {
-        $lead = $this->module->getApp()->getStore()->getLead($leadKey);
+        $lead = isset($data['trunk'])
+            ? $data['trunk'] // now the data is included inside the leaderboard lead
+            : $this->module->getApp()->getStore()->getLead($data['key']); // loading out of the old file
 
         if (!$lead) {
             return null;
@@ -92,10 +94,20 @@ class LeaderboardLeadsBlock extends ModuleBlock
 
         foreach ($matches[1] as $match) {
             $matchParts = explode(':', $match, 2);
-            $dataValue = RiddleTools::getArrayElementFromInnerHtml(trim($matchParts[0]), $lead);
+            $arrayElement = trim($matchParts[0]);
+            $dataValue = RiddleTools::getArrayElementFromInnerHtml($arrayElement, $lead);
+
+            // if no match was found with the actual lead - support for older versions of the leaderboard.
+            if ($dataValue === $arrayElement) {
+                $dataValue = RiddleTools::getArrayElementFromInnerHtml($arrayElement, $data);
+            }
 
             if (isset($matchParts[1]) ) {
                 $dataValue = $this->_filterValue($matchParts[1], $dataValue);
+            }
+
+            if ('resultData.scorePercentage' === $matchParts[0]) {
+                $dataValue .= '%'; // adding the % to the percentage on the leaderboard
             }
 
             $htmlTemplate = str_replace('{' . $match . '}', $dataValue, $htmlTemplate);
@@ -133,7 +145,7 @@ class LeaderboardLeadsBlock extends ModuleBlock
         /**
          * Example: 'range' => 2 => only display the second leaderboard lead
          */
-        if (is_numeric($range) && $range > 0 && $range < $this->getLeaderboardLength()) {
+        if (is_numeric($range) && $range > 0 && $range < $this->module->getStoreService()->getTotalEntries()) {
             $range = [
                 'start' => $range,
                 'end' => $range,
@@ -260,5 +272,4 @@ class LeaderboardLeadsBlock extends ModuleBlock
 
         return $firstLetter . $asterisks . $lastLetter;
     }
-
 }

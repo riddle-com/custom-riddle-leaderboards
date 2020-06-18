@@ -2,12 +2,13 @@
 
 namespace Riddle\Landingpage\Module\Block;
 
+use Riddle\Landingpage\Module\LeaderboardModule;
+
 abstract class ModuleBlock
 {
-    
     protected $module;
 
-    public function __construct($module)
+    public function __construct(LeaderboardModule $module)
     {
         $this->module = $module;
     }
@@ -26,5 +27,4 @@ abstract class ModuleBlock
     {
         return $this->module->getApp()->getData();
     }
-
 }

@@ -9,6 +9,7 @@
 
 namespace Riddle\Core;
 
+use Riddle\Exception\BadConfigException;
 use Riddle\Render\RiddlePageSkeleton;
 use Riddle\Landingpage\Module\LeaderboardModule;
 use Riddle\Landingpage\Store\RiddleJsonStore;
@@ -44,8 +45,11 @@ class RiddleApp
     public function __construct(RiddleLeaderboardHandler $handler = null)
     {
         $this->leaderboardHandler = $handler;
-
         $this->config = new RiddleConfig();
+    }
+
+    public function init()
+    {
         $this->skeleton = new RiddlePageSkeleton($this);
         $this->store = $this->_getRiddleStore();
         $this->leaderboardModule = new LeaderboardModule($this);
@@ -63,12 +67,12 @@ class RiddleApp
         $this->riddleId = $data->getId();
 
         if (!$this->getStore()->isLoaded()) {
-            $this->getStore()->load();
+            $this->getStore()->load(); // although it's deprecated, old leads have to be loaded
         }
 
-        $this->getStore()->addLead($data, $this);
-        $this->getStore()->store();
         $this->leaderboardModule->processData($data);
+        
+        // in earlier versions, there were two files: from now on we only use one for easier use.
     }
 
     private function _getRiddleStore()
@@ -101,11 +105,6 @@ class RiddleApp
     public function getStore()
     {
         return $this->store;
-    }
-
-    public function setStore(RiddleStore $store) 
-    {
-        $this->store = $store;
     }
 
     public function getRiddleId()

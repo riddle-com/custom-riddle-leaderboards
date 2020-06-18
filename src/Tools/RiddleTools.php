@@ -59,6 +59,11 @@ class RiddleTools
         return $matches;
     }
 
+    public static function getRenderedViewPath($app, $view)
+    {
+        return $app->getConfig()->getProperty('rendereredViewsPath') . '/' . $view . '.' . $extension;
+    }
+
     public static function getDataFilePath($app, $fileName) 
     {
         return $app->getConfig()->getProperty('dataPath') . '/' .$fileName;
@@ -76,4 +81,8 @@ class RiddleTools
         return ob_get_clean();
     }
 
+    public static function now(string $format = 'Y-m-d H:i:s')
+    {
+        return (new \DateTime())->format($format);
+    }
 }

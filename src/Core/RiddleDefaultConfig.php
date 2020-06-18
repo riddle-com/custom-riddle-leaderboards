@@ -21,6 +21,16 @@ $config = [
     'leadKey' => 'Email',
 
     /**
+     * Choose between default, add & time.
+     * 
+     * - percentage: leads get sorted by the percentage.
+     * - sum:        leads get sorted by the total score across multiple rounds.
+     * - timeP:      leads get sorted by time & percentage.
+     * - timeS:      leads get sorted by time & scoreSum 
+     */
+    'leaderboardMode' => 'percentage',
+
+    /**
      * Which css stylesheets do you want to use?
      * In this case we use Bootstrap 4 + our own stylesheet with small tweaks.
      * 
